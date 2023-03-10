@@ -40,7 +40,7 @@
             this.button1.BackColor = System.Drawing.SystemColors.MenuText;
             this.button1.Font = new System.Drawing.Font("Bahnschrift Condensed", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.Snow;
-            this.button1.Location = new System.Drawing.Point(169, 490);
+            this.button1.Location = new System.Drawing.Point(110, 477);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(212, 47);
             this.button1.TabIndex = 0;
@@ -54,9 +54,11 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(59, 51);
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Location = new System.Drawing.Point(33, 41);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(432, 398);
+            this.pictureBox1.Size = new System.Drawing.Size(380, 430);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
