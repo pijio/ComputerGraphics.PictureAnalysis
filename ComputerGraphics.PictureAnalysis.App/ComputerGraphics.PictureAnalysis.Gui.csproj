@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0C814F37-79ED-44E7-8DCB-A3509FFD2AA8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ComputerGraphics.PictureAnalysis.App</RootNamespace>
-    <AssemblyName>ComputerGraphics.PictureAnalysis.App</AssemblyName>
+    <RootNamespace>ComputerGraphics.PictureAnalysis.Gui</RootNamespace>
+    <AssemblyName>ComputerGraphics.PictureAnalysis.Gui</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -65,6 +65,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
