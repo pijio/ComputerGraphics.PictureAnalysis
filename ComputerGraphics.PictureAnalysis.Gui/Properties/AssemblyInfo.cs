@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
-// связанные со сборкой.
+// связанных со сборкой.
 [assembly: AssemblyTitle("ComputerGraphics.PictureAnalysis.App")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
@@ -16,11 +16,11 @@ using System.Runtime.InteropServices;
 
 // Установка значения False для параметра ComVisible делает типы в этой сборке невидимыми
 // для компонентов COM. Если необходимо обратиться к типу в этой сборке через
-// COM, задайте атрибуту ComVisible значение TRUE для этого типа.
+// COM, следует установить атрибут ComVisible в TRUE для этого типа.
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("471382ee-49d1-4fb9-a952-dbda302b73ff")]
+[assembly: Guid("0c814f37-79ed-44e7-8dcb-a3509ffd2aa8")]
 
 // Сведения о версии сборки состоят из указанных ниже четырех значений:
 //
