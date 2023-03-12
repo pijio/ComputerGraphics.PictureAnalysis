@@ -47,13 +47,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AreaAnalyzer.cs" />
+    <Compile Include="Areas\AreaType.cs" />
+    <Compile Include="Areas\BaseArea.cs" />
+    <Compile Include="Areas\StartArrow.cs" />
+    <Compile Include="Areas\TreasureArea.cs" />
+    <Compile Include="Areas\WayArrow.cs" />
     <Compile Include="PictureExtensions.cs" />
     <Compile Include="PictureWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TreasureFounder\Way.cs" />
+    <Compile Include="TreasureFounder\WayDrawer.cs" />
+    <Compile Include="TreasureFounder\WayFounder.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -112,6 +112,36 @@ namespace ComputerGraphics.PictureAnalysis.App
             return Matrix<double>.Build.DenseOfArray(new[,] { { h }, { s }, { l } });
         }
 
+        
+        /// <summary>
+        /// Пиксель rgb в hsl
+        /// </summary>
+        /// <returns></returns>
+        public static Matrix<double> RgbPixelToHsl(this Color rgb)
+        {
+
+            var r = (double)rgb.R / 255;
+            var g = (double)rgb.G / 255;
+            var b = (double)rgb.B / 255;
+            var max = Math.Max(Math.Max(r, g), b);
+            var min = Math.Min(Math.Min(r, g), b);
+            double h = 0, s = 0, l = (max + min) / 2;
+
+            const double eps = 0.00001;
+
+            if (Math.Abs(max - min) < eps)
+            {
+                var d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                if (Math.Abs(max - r) < eps) h = (g - b) / d + (g < b ? 6 : 0);
+                else if (Math.Abs(max - g) < eps) h = (b - r) / d + 2;
+                else if (Math.Abs(max - b) < eps) h = (r - g) / d + 4;
+                h /= 6;
+            }
+
+            return Matrix<double>.Build.DenseOfArray(new[,] { { h }, { s }, { l } });
+        }
+
         /// <summary>
         /// Пиксель hsl в rgb
         /// </summary>

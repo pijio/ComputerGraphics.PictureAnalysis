@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 
 namespace ComputerGraphics.PictureAnalysis.App
 {
+    /// <summary>
+    /// Класс различных математических утилит
+    /// </summary>
     public class Utilities
     {
         /// <summary>
@@ -107,30 +111,6 @@ namespace ComputerGraphics.PictureAnalysis.App
             return 3.5 * deviation * Math.Pow(count, -1d / 3);
         }
 
-        public static void WriteDictionaryToFile(Dictionary<double, int> dictionary, string filePath)
-        {
-            var culture = new CultureInfo("ru-RU");
-            using (var writer = new StreamWriter(filePath))
-            {
-                foreach (var entry in dictionary)
-                {
-                    writer.WriteLine($"{entry.Key.ToString(culture)} {entry.Value}");
-                }
-            }
-        }
-
-        public static void WriteDictionaryToFile(Dictionary<double, double> dictionary, string filePath)
-        {
-            var culture = new CultureInfo("ru-RU");
-            using (var writer = new StreamWriter(filePath))
-            {
-                foreach (var entry in dictionary)
-                {
-                    writer.WriteLine($"{entry.Key.ToString(culture)} {entry.Value.ToString(culture)}");
-                }
-            }
-        }
-
         /// <summary>
         /// Порог яркости для бинаризации изображения
         /// </summary>
@@ -158,6 +138,41 @@ namespace ComputerGraphics.PictureAnalysis.App
             }
 
             return Math.Abs(hmax - (brightness - hmax));
+        }
+
+        /// <summary>
+        /// Проверяем, лежит ли точка на линии либо близка к ней
+        /// </summary>
+        /// <param name="lineDot"></param>
+        /// <param name="dotForVerify"></param>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        public static bool LocateOnLine(Point lineDot, Point dotForVerify, double angle)
+        {
+            var x1 = lineDot.X; // координата x начальной точки луча
+            var y1 = lineDot.Y; // координата y начальной точки луча
+            var x2 = dotForVerify.X; // координата x проверяемой точки
+            var y2 = dotForVerify.Y; // координата y проверяемой точки
+            var deviation = 20d * (Math.PI / 180.0); // максимальный допустимый угол отклонения
+
+            double distanceX = (x2 - x1) * Math.Cos(angle) + (y2 - y1) * Math.Sin(angle);
+            double distanceY = (y2 - y1) * Math.Cos(angle) - (x2 - x1) * Math.Sin(angle);
+            double distance = Math.Sqrt(distanceX * distanceX + distanceY * distanceY);
+
+            return Math.Abs(distanceY / distance) <= Math.Tan(deviation);
+        }
+
+        /// <summary>
+        /// Расстояние от точки до точки
+        /// </summary>
+        /// <param name="dot"></param>
+        /// <param name="dotForVerify"></param>
+        /// <returns></returns>
+        public static double DistanceToPoint(Point dot, Point dotForVerify)
+        {
+            return Math.Sqrt(
+                Math.Pow(dot.X - dotForVerify.X, 2) +
+                Math.Pow(dot.Y - dotForVerify.Y, 2));
         }
     }
 }

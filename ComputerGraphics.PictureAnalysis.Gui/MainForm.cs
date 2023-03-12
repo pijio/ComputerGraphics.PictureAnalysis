@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ComputerGraphics.PictureAnalysis.App;
-using MathNet.Numerics.Statistics;
+using ComputerGraphics.PictureAnalysis.App.TreasureFounder;
 using Label = System.Windows.Forms.Label;
 
 namespace ComputerGraphics.PictureAnalysis.Gui
@@ -127,11 +120,7 @@ namespace ComputerGraphics.PictureAnalysis.Gui
                 var colorizedBitmap = PictureWorker.ColorizeSelectedAreas(selectedAreas);
 
                 pictureBox2.Image = ScalePictureForPictureBox(colorizedBitmap);
-                var centersOfMass = PictureWorker.CenterOfMass(selectedAreas);
-                var areasWithoutBackg = PictureWorker.ExcludeBackgroundFromPicture(selectedAreas);
-                var dcm11 = PictureWorker.DiscreteCentralMoment(areasWithoutBackg, centersOfMass, 1, 1);
-                var dcm20 = PictureWorker.DiscreteCentralMoment(areasWithoutBackg, centersOfMass, 2, 0);
-                var dcm02 = PictureWorker.DiscreteCentralMoment(areasWithoutBackg, centersOfMass, 0, 2);
+
             }
             catch(Exception ex)
             {
@@ -154,6 +143,48 @@ namespace ComputerGraphics.PictureAnalysis.Gui
         private void label2_Click_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            ResetInfoBox(3);
+            try
+            {
+                if (_binarized == null)
+                    throw new InvalidOperationException("Исходник не бинаризован!");
+
+                var selectedAreas = PictureWorker.SelectRelatedAreas(_binarized);
+
+                var objects = PictureWorker.ExcludeBackgroundFromPicture(selectedAreas);
+
+                var image = Image.FromFile(_currentImagePath);
+
+                var way = WayFounder.FoundWay(objects, (Bitmap)image);
+
+                var endWay = way.End.CenterOfMass;
+
+                var endArea = objects.FirstOrDefault(x =>
+                {
+                    var com = AreaAnalyzer.CenterOfMass(x.Value);
+                    return com.Item1 == endWay.X && com.Item2 == endWay.Y;
+                });
+
+                var imageWithWay = WayDrawer.DrawWay(endArea.Value, way, (Bitmap)image);
+
+                pictureBox2.Image = ScalePictureForPictureBox(imageWithWay);
+
+
+            }
+            catch (NullReferenceException)
+            {
+                label3.ForeColor = Color.Red;
+                label3.Text = "Что-то пошло не так...";
+            }
+            catch (Exception ex)
+            {
+                label3.ForeColor = Color.Red;
+                label3.Text = ex.Message;
+            }
         }
     }
 }

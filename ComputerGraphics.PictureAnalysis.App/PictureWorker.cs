@@ -17,10 +17,10 @@ namespace ComputerGraphics.PictureAnalysis.App
     /// </summary>
     public static partial class PictureWorker
     {
-        private static Random _rand = new Random();
+        private static readonly Random _rand = new Random();
 
         /// <summary>
-        /// Метод бинаризации (для HSL пространства)
+        /// Метод бинаризации (aka создание битовой маски) для HSL пространства
         /// </summary>
         /// <param name="image"></param>
         /// <returns></returns>
@@ -77,6 +77,12 @@ namespace ComputerGraphics.PictureAnalysis.App
             return selectedBitmap;
         }
 
+
+        /// <summary>
+        /// Отмечаем связанные области
+        /// </summary>
+        /// <param name="binarizedSource">Бинарная маска изображения</param>
+        /// <returns></returns>
         public static int[,] SelectRelatedAreas(Bitmap binarizedSource)
         {
             var areas = new int[binarizedSource.Width, binarizedSource.Height];
@@ -159,51 +165,11 @@ namespace ComputerGraphics.PictureAnalysis.App
             return groupsInfo;
         }
 
-        public static List<int> DiscreteCentralMoment(Dictionary<int, LinkedList<int[]>> areas,
-            List<Tuple<int, int, int>> centersOfMass, int i, int j)
-        {
-            var result = new List<int>(areas.Keys.Count);
-            foreach (var area in areas)
-            {
-                // area mass center
-                var amc = centersOfMass.Where(x => x.Item1 == area.Key)
-                    .Select(p => new { X = p.Item2, Y = p.Item3}).FirstOrDefault();
-                if(amc == null) continue;
-
-                var sum = (int)area.Value.AsParallel().Sum(p => Math.Pow(p[0] - amc.X, i) * Math.Pow(p[1] - amc.Y, j));
-                result.Add(sum);
-            }
-            return result;
-        }
-
         /// <summary>
-        /// Центры масс связанных областей
+        /// Генератор цветов без смс и регистрации
         /// </summary>
-        /// <param name="areas"></param>
+        /// <param name="count"></param>
         /// <returns></returns>
-        public static List<Tuple<int, int, int>> CenterOfMass(int[,] areas)
-        {
-            var groupsInfo = ExcludeBackgroundFromPicture(areas);
-            var result = new List<Tuple<int, int, int>>(groupsInfo.Keys.Count);
-            int currentSumX = 0, currentSumY = 0;
-            foreach (var group in groupsInfo)
-            {
-                foreach (var pixels in group.Value)
-                {
-                    currentSumX += pixels[0];
-                    currentSumY += pixels[1];
-                }
-
-                var centerMassX = (int)Math.Round((double)currentSumX / group.Value.Count, 0);
-                var centerMassY = (int)Math.Round((double)currentSumY / group.Value.Count, 0);
-                result.Add(new Tuple<int, int, int>(group.Key, centerMassX, centerMassY));
-                currentSumX = 0;
-                currentSumY = 0;
-            }
-
-            return result;
-        }
-
         public static IEnumerable<Color> GenerateColors(int count)
         {
             HashSet<Color> colors = new HashSet<Color>();
